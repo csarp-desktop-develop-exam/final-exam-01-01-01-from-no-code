@@ -3,17 +3,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:KretaProject.ViewModels"
+        xmlns:view="clr-namespace:KretaProject.View"
         xmlns:local="clr-namespace:KretaProject"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodel:StudentViewModel}">
+            <view:StudentView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:SchoolClassViewModel}">
+            <view:SchoolClassView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:ControlPanelViewModel}">
+            <view:ControlPanelView />
+        </DataTemplate>
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Főmenüpont">
-                <MenuItem Header="Vezérlőpult"></MenuItem>
-                <MenuItem Header="Diákok"></MenuItem>
-                <MenuItem Header="Osztályok"></MenuItem>
-            </MenuItem> 
-            
+                <MenuItem Header="Vezérlőpult" Command="{Binding ShowControlPanelCommand}"></MenuItem>
+                <MenuItem Header="Diákok" Command="{Binding ShowStudentViewCommand}"></MenuItem>
+                <MenuItem Header="Osztályok" Command="{Binding ShowSchoolClassCommand}"></MenuItem>
+            </MenuItem>            
         </Menu>
+        <ContentControl Content="{Binding CurrentView}" />
     </DockPanel>
 </Window>
